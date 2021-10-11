@@ -13,14 +13,14 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: 14.x
-    - name: Generate Nodebb Files
-      run: ./nodebb info
     - name: Create the Config
       id: create-json
       uses: jsdaniell/create-json@1.1.2
       with:
         name: "config.json"
         json: '{"url":"${{ secrets.FORUM_URL }}", "secret":"${{ secrets.FORUM_COOKIE_SECRET }}", "database": "mongo", "mongo":{"uri":"${{ secrets.FORUM_MONGO_CONNECTION_STRING }}"}, "port":80 }'
+    - name: Generate Nodebb Files
+      run: ./nodebb info
     - name: Generate deployment package
       run: zip -r deploy.zip * -x "**node_modules**"
 
