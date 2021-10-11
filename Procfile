@@ -1,1 +1,1 @@
-web: nodebb start
+web: ./nodebb start

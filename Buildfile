@@ -1,1 +1,1 @@
-make: nodebb build
+make: ./nodebb build
