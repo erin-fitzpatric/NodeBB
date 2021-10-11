@@ -1,0 +1,47 @@
+name: Deploy
+on:
+  push:
+    branches:
+      - master
+jobs:
+  build:
+    runs-on: ubuntu-latest
+  
+    steps:
+    - uses: actions/checkout@v1
+    - name: Use Node.js 14.x
+      uses: actions/setup-node@v1
+      with:
+        node-version: 14.x
+    - name: Create the Config
+      id: create-json
+      uses: jsdaniell/create-json@1.1.2
+      with:
+        name: "config.json"
+        json: '{"url":"${{ secrets.FORUM_URL }}", "secret":"${{ secrets.FORUM_COOKIE_SECRET }}", "database": "mongo", "mongo":{"uri":"${{ secrets.FORUM_MONGO_CONNECTION_STRING }}"}, "port":80 }'
+    - name: Generate deployment package
+      run: zip -r deploy.zip * -x "**node_modules**"
+
+    - name: Get timestamp
+      uses: gerred/actions/current-time@master
+      id: current-time
+
+    - name: Run string replace
+      uses: frabert/replace-string-action@master
+      id: format-time
+      with:
+        pattern: '[:\.]+'
+        string: "${{ steps.current-time.outputs.time }}"
+        replace-with: '-'
+        flags: 'g'
+
+    - name: Beanstalk Deploy for app
+      uses: einaregilsson/beanstalk-deploy@v10
+      with:
+        aws_access_key: ${{secrets.AWS_ACCESS_KEY_ID}}
+        aws_secret_key: ${{secrets.AWS_SECRET_ACCESS_KEY}}
+        application_name: "Ageofstrategyforum"
+        environment_name: "Ageofstrategyforum-env"
+        region: "us-east-1"
+        version_label: "ageofstrategy-forum-${{ steps.format-time.outputs.replaced }}"
+        deployment_package: deploy.zip
