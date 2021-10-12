@@ -28,9 +28,9 @@ jobs:
               , "port": 80 
               }'
     - name: Generate Nodebb Files
-      run: ./nodebb setup
+      run: ./nodebb build
     - name: Generate deployment package
-      run: zip -r deploy.zip * -x "**node_modules**"
+      run: zip -r deploy.zip *
 
     - name: Get timestamp
       uses: gerred/actions/current-time@master
