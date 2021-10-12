@@ -19,13 +19,13 @@ jobs:
       with:
         name: "config.json"
         json: '{
-                "url": "${{ secrets.FORUM_URL }}"
-              , "secret":"${{ secrets.FORUM_COOKIE_SECRET }}"
-              , "database": "mongo"
-              , "mongo":{
+                "url": "${{ secrets.FORUM_URL }}", 
+                "secret":"${{ secrets.FORUM_COOKIE_SECRET }}",
+                "database": "mongo",
+                "mongo":{
                   "uri":"${{ secrets.FORUM_MONGO_CONNECTION_STRING }}"
-                }
-              , "port": 8080
+                },
+                "port": 8080
               }'
     - name: Generate Nodebb Files
       run: ./nodebb build
@@ -51,7 +51,7 @@ jobs:
         aws_access_key: ${{secrets.AWS_ACCESS_KEY_ID}}
         aws_secret_key: ${{secrets.AWS_SECRET_ACCESS_KEY}}
         application_name: "ageofstrategy-forum"
-        environment_name: "Ageofstrategyforum-env"
+        environment_name: "ageofstrategy-forum"
         region: "us-east-1"
         version_label: "ageofstrategy-forum-${{ steps.format-time.outputs.replaced }}"
         deployment_package: deploy.zip
