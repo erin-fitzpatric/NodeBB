@@ -27,10 +27,8 @@ jobs:
                 }
               , "port": 80 
               }'
-    - name: debug output
-      run: cat config.json
     - name: Generate Nodebb Files
-      run: ./nodebb info
+      run: ./nodebb setup
     - name: Generate deployment package
       run: zip -r deploy.zip * -x "**node_modules**"
 
