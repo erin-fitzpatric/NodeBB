@@ -25,7 +25,7 @@ jobs:
               , "mongo":{
                   "uri":"${{ secrets.FORUM_MONGO_CONNECTION_STRING }}"
                 }
-              , "port": 80 
+              , "port": 8080
               }'
     - name: Generate Nodebb Files
       run: ./nodebb build
