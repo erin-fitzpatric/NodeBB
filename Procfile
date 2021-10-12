@@ -1,1 +1,0 @@
-web: ./nodebb start
